@@ -34,14 +34,14 @@ export default function LoginPage() {
             type="submit"
             className="w-full py-2 border border-border rounded-lg bg-primary text-primar font-semibold hover:bg-accent transition-colors"
           >
-            Log In
+            Zaloguj się
           </button>
         </form>
 
         <div className="text-sm text-center mt-6 text-gray-500">
-          Don't have an account?{' '}
+          Nie masz konta?{' '}
           <a href="/signup" className="text-primary hover:underline">
-            Sign up
+            Zarejestruj się
           </a>
         </div>
       </div>
