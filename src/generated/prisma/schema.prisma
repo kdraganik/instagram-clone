@@ -9,7 +9,74 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  username  String    @unique
+  name      String?
+  bio       String?
+  avatarUrl String?
+  posts     Post[]    @relation("UserPosts")
+  comments  Comment[]
+  likes     Like[]
+  saved     Saved[]
+  followers Follow[]  @relation("FolloweeFollows")
+  following Follow[]  @relation("FollowerFollows")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  caption   String?
+  imageUrl  String
+  user      User      @relation("UserPosts", fields: [userId], references: [id])
+  userId    String
+  comments  Comment[]
+  likes     Like[]
+  createdAt DateTime  @default(now())
+  Saved     Saved[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
+
+model Saved {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model Follow {
+  id         String   @id @default(uuid())
+  follower   User     @relation("FollowerFollows", fields: [followerId], references: [id])
+  followerId String
+  followee   User     @relation("FolloweeFollows", fields: [followeeId], references: [id])
+  followeeId String
+  createdAt  DateTime @default(now())
+
+  @@unique([followerId, followeeId])
 }

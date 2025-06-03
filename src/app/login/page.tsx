@@ -1,15 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log({ email, password });
+        setIsSubmitted(true);
     };
+
+    useEffect(() => {
+        if (!isSubmitted) return;
+        
+        fetch("/api/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        }).then(async (response) => {
+            setIsSubmitted(false);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+            } else {
+                const data = await response.json();
+                setError(data.error || "Wystąpił błąd podczas logowania");
+            }
+        })
+    }, [isSubmitted]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-bgLight">
@@ -19,10 +42,10 @@ export default function LoginPage() {
                 </h1>
                 <form onSubmit={handleLogin} className="space-y-4">
                     <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                     <input
@@ -32,6 +55,11 @@ export default function LoginPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
+                    {error && (
+                        <div className="text-red-500 text-sm text-center">
+                            {error}
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="w-full py-2 border border-border rounded-lg bg-primary text-primar font-semibold hover:bg-accent transition-colors"

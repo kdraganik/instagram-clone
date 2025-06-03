@@ -121,7 +121,50 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  username: 'username',
+  name: 'name',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  caption: 'caption',
+  imageUrl: 'imageUrl',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LikeScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SavedScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FollowScalarFieldEnum = {
+  id: 'id',
+  followerId: 'followerId',
+  followeeId: 'followeeId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -134,9 +177,19 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Post: 'Post',
+  Comment: 'Comment',
+  Like: 'Like',
+  Saved: 'Saved',
+  Follow: 'Follow'
 };
 
 /**
