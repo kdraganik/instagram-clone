@@ -8,7 +8,9 @@ const Layout = ({ children } : Props) => {
     return (
         <div className='flex bg-[#f4f4fa]'>
             <Navbar />
-            {children}
+            <div className="ml-72 flex-1">
+                {children}
+            </div>
         </div>
     )
 }

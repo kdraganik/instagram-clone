@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Feed from "../components/feed";
+import Feed from "../../components/feed";
 
-export default function Home() {
+export default function FeedPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -12,5 +12,9 @@ export default function Home() {
     }
   }, [router]);
 
-  return <Feed />;
+  return (
+    <div className="p-4">
+      <Feed />
+    </div>
+  );
 }
