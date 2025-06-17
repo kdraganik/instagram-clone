@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function LoginPage() {
+    const { setUser } = useUser();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,13 +30,14 @@ export default function LoginPage() {
             setIsSubmitted(false);
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+                setUser(data);
+                router.push("/");
             } else {
                 const data = await response.json();
                 setError(data.error || "Wystąpił błąd podczas logowania");
             }
-        })
-    }, [isSubmitted]);
+        });
+    }, [isSubmitted, router, setUser]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-bgLight">
@@ -78,4 +83,3 @@ export default function LoginPage() {
         </div>
     );
 }
-//                             

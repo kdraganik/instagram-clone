@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -34,8 +34,8 @@ model Post {
   userId    String
   comments  Comment[]
   likes     Like[]
+  saved     Saved[]
   createdAt DateTime  @default(now())
-  Saved     Saved[]
 }
 
 model Comment {

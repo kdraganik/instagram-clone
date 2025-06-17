@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const navLinks = [
     {
@@ -41,6 +42,13 @@ const navLinks = [
 
 export const Navbar = () => {
     const pathname = usePathname();
+    const { user } = useUser();
+
+    const updatedNavLinks = navLinks.map((link) =>
+        link.label === "Profile"
+            ? { ...link, href: user ? "/profile" : "/login" }
+            : link
+    );
 
     return (
         <aside className="fixed top-0 left-0 border border-transparent border-r-black h-screen w-72 bg-white pl-6 pt-6 gap-12 flex flex-col">
@@ -52,11 +60,13 @@ export const Navbar = () => {
             />
 
             <div className="flex gap-6 flex-col">
-                {navLinks.map(({ label, href, Icon }) => (
+                {updatedNavLinks.map(({ label, href, Icon }) => (
                     <div key={label}>
                         <Link
                             href={href}
-                            className={`flex justify-start items-center gap-2 ${pathname === href ? "font-bold" : ""}`}
+                            className={`flex justify-start items-center gap-2 ${
+                                pathname === href ? "font-bold" : ""
+                            }`}
                         >
                             <Icon className="h-6 w-6" />
                             <span className="ml-2 text-xl">{label}</span>
